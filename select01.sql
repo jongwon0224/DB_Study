@@ -1,5 +1,4 @@
 /*
-
 1. 조회 SELECT
 
 ※구조※
@@ -22,7 +21,6 @@ ex) 컬럼명 : DEPTNO / DNAME / LOC 임
 1.select 컬럼명 as "컬럼별칭" from 테이블명;
 2.select컬럼명 "컬럼별칭" from 테이블명;
 3.select컬럼명 컬럼별칭 from 테이블명;
-
 */
 
 select * from dept; --dept테이블에 있는 모든 컬럼을 조회
