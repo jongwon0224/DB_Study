@@ -292,4 +292,30 @@ WHERE deptno1 = 101;
 
 
 
+--case문 : case 조건 when 결과 1 then 출력1 [when 결과2 then 출력2] else 출력3
+--         end "컬럼명"
+
+--예시 1
+select 
+    CASE grade
+        WHEN 1 THEN '저학년'
+        WHEN 2 THEN '저학년'
+        WHEN 3 THEN '고학년'
+        WHEN 4 THEN '고학년'
+    END AS "학년구분"
+from student;   
+
+--예시 2
+SELECT
+    CASE
+        WHEN grade IN (1,2) THEN '저학년'
+        WHEN grade BETWEEN 3 AND 4 THEN '고학년'
+    END 학년구분
+from student;
+
+
+
+
+
+
 
