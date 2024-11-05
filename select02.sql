@@ -2,12 +2,14 @@
 단일행 함수
 임시로 사용하는 테이블(테스트용) dual
 */
+
 --INITCAP 첫글자 대문자로 변환
 SELECT 
     ename,
     INITCAP('ABCDE') "테스트",
     INITCAP(ename) "첫글자대문자"
 FROM emp;
+
 
 -- LOWER 전부 소문자로 변환 , UPPER 전부 대문자로 변환
 SELECT 
@@ -17,31 +19,22 @@ SELECT
     UPPER(name)
 FROM student;
 
+
 --LENGTH 글자 길이
-SELECT
-    LENGTH('abcdefaef') --확인 하는데 불필요하게 dept테이블구성에 맞게 4행씩이나 나옴
-FROM dept;
-
-SELECT
-    LENGTH('abcdefaef') "단어길이",
-    LENGTHB('abcdefaef') "단어길이의 바이트값",
-    LENGTH('점심'),
-    LENGTHB('점심')
-FROM dual;  -- dual 테이블 안만들고 기능 확인용 테이블 1행만 출력
-
 SELECT *
 FROM emp   --emp테이블에서 이름이 5글자 이상인 사람들 찾기
 WHERE LENGTH(ename) >= 5;
 
--- CONCAT ||과 동일한기능 이지만 매개변수2개까지 받음
-SELECT '아침' || '점심', CONCAT('아침', '점심')
-FROM dual;
 
+
+-- CONCAT ||과 동일한기능 이지만 매개변수2개까지 받음
 SELECT '아침' || '점심' || '저녁', CONCAT('아침', '점심')   --CONCAT함수는 매개변수가 2개라서 3개이상은 못넣음
 FROM dual;
 
 SELECT '아침' || '점심' || '저녁', CONCAT( CONCAT('아침', '점심'), '저녁')   --CONCAT함수는 매개변수가 2개라서 3개이상은 못넣음 더 추가하려면 묶어서 써줘야함
 FROM dual;
+
+
 
 --SUBSTR (대상, 시작지점, 자리수) 첫글자가 1번
 SELECT 
@@ -57,6 +50,8 @@ SELECT
 FROM student
 WHERE deptno1 = 101;
 
+
+
 --INSTR (대상, 찾을거, 시작(1=글자맨처음부터), 몇번째찾을꺼나올때까지)
 SELECT
     INSTR('2024/11/04 10/45/45', '/', 1),
@@ -67,6 +62,7 @@ SELECT
     INSTR('2024/11/04 10/45/45', '/', 16, 2)
 FROM dual;
 
+
 SELECT  -- student 테이블에서 전공넘버가 201애들중 tel의 ) 표시가 몇번째에 적혀있는지 찾기
     name,
     tel,
@@ -74,38 +70,6 @@ SELECT  -- student 테이블에서 전공넘버가 201애들중 tel의 ) 표시�
 FROM student
 WHERE deptno1 = 201;
 
--- 간단한 연습 --
-SELECT *
-FROM student;
-
-SELECT
-    name "이름",
-    SUBSTR(jumin, 1, 2) "년도",
-    SUBSTR(jumin, 3, 2) "월",
-    SUBSTR(jumin, 5, 2) "일"
-FROM student;
-
-SELECT
-    name,
-    tel,
-    INSTR( tel, ')' ) "괄호위치"
-FROM student
-WHERE deptno1 = 201;
-
-SELECT
-    name,
-    tel,
-    INSTR( tel, '3', 1, 1) "'3' 이 처음 나오는 위치"
-FROM student
-WHERE deptno1 = 101;
-
-SELECT
-    name,
-    tel,
-    SUBSTR(tel, 1, INSTR( tel, ')')-1 ) "지역번호"
-FROM student
-WHERE deptno1 = 201;
--- 연습 끝 --
 
 -- LPAD 왼쪽에 문자채움  RPAD 오른쪽에 문자채움
 SELECT
@@ -119,21 +83,16 @@ SELECT
     RPAD(id, 10, '*')
 FROM student;
 
-SELECT
-    ename,
-    LPAD(ename, 9, 123456789)
-FROM emp;
 
 -- LTRIM 왼쪽에서 제거할 문자 RTRIM 오른쪽에서 제거할 문자
 -- 불필요한 요소 제거함 ( 공백 제거용으로 많이 쓰임 ) ex)" 점심은 30분 후 "
 SELECT
-    LTRIM('abcd', 'a'),
-    RTRIM('abcd', 'd'),
     RTRIM('abcdef', 'ef'),
     LTRIM(' ab cd '), -- 따로 지정을 안해줘도 왼쪽끝띄어쓰기를 제거해줌.
     RTRIM(' ab cd '), -- 따로 지정을 안해줘도 오른쪽끝띄어쓰기를 제거해줌.
     TRIM(' ab cd ') -- 따로 지정을 안해줘도 양쪽띄어쓰기를 제거해줌.
 FROM dual;
+
 
 -- REPLACE 지정한것을 다른 문자로 바꾸겠다
 SELECT
@@ -145,6 +104,7 @@ SELECT
     ename,
     REPLACE(ename, SUBSTR(ename,1 ,2), '**') "REPLACE"
 FROM emp;
+
 
 
 --소숫점
@@ -218,6 +178,117 @@ SELECT
     TO_CHAR( ROUND(SYSDATE), 'YYYY-MM-DD HH24:MI:SS')
 FROM dual;
 
+
+--문자형 -> 문자형
+SELECT
+    TO_CHAR(1234, '999999'), -- 9 자릿수만큼 공백
+    TO_CHAR(1234, '09999'), -- 공백을 9로 채움
+    TO_CHAR(1234, '$9999'), -- 맨앞에 달러 출력
+    TO_CHAR(1234, '9999.99'), -- .99만큼 자릿수 출력
+    TO_CHAR(1234, '99,999') -- 천단위 쉼표 생성
+FROM dual;
+
+SELECT empno, ename, sal, comm,
+    TO_CHAR((sal*12)+comm, '99,999')
+FROM emp
+WHERE ename = 'ALLEN';
+
+--특정 문자를 숫자로 바꿔줌
+SELECT 
+    TO_NUMBER('5')
+FROM dual;
+
+--문자를 날짜형식으로 바꿔줌 => 형변환후 숫자 더하기 가능
+SELECT
+    TO_DATE('2024-06-02', 'YYYY-MM-DD') "1", --명시적 날짜 작성 양식
+    TO_DATE('12/10/20', 'MM-DD-YY') "2", --20년12월10일로 인식
+    TO_DATE('2024/06/02') + 3 "3",
+    TO_DATE('24/06/02') + 3 "4",
+    TO_DATE('20240602') + 3 "5",
+    TO_DATE('2024,06,02', 'YYYY,MM,DD') "6"
+FROM dual;
+
+
+--nvl함수 : null일때 다른값으로 치환
+--nvl -> null(대상, 치환 값)
+SELECT 
+    sal,
+    comm,
+    sal*12 + comm,
+    sal*12 + NVL(comm, '0')
+FROM emp;
+
+--nvl2 : vnl2(대상, null아닐시 값 출력, null일시 값 출력)
+SELECT
+    empno, ename, sal, comm, NVL2(comm, sal+comm, sal*0) "NVL2"
+FROm emp
+WHERE deptno = 30;
+
+SELECT
+    NVL(null, 10),
+    NVL2(123, '널아님','널'),
+    NVL2(null, '널아님','널')
+FROM dual;
+
+
+-- decode 함수 : decode(a,b,'1','2') -> a가 b일 경우 1출력 아닐경우 2출력 (2생략가능)
+SELECT 
+    DECODE(10,10,'같다', '다르다'),
+    DECODE(10,20,'같다'), -- decode(10,20,'같다',null)
+    DECODE(10,20,'같다', null),
+    DECODE(10,30,'30이다', 40, '40이다', 50, '50이다', '아니다') --10,30 / 10,40/ 10,50 비교후 아니면 '아니다' 출력
+FROM dual;
+
+
+SELECT 
+    deptno,
+    name,
+    DECODE(deptno, 101, '컴퓨터공학', 'etc') "전공"
+FROM professor;
+
+SELECT 
+    deptno,
+    name,
+    DECODE(deptno, 101, 'C.E', 102, 'M.E', 103, 'SW.E', 'ETC') "DNAME"
+FROM professor;
+
+
+--1번
+SELECT 
+    deptno,
+    name,
+    DECODE(deptno, 101, DECODE(name, 'Audie Murphy', 'BEST!')) "DECODE"
+FROM professor;
+
+--2번
+SELECT 
+    deptno,
+    name,
+    DECODE(deptno, 101, DECODE(name, 'Audie Murphy', 'BEST!', 'GOOD!')) "비고"
+FROM professor;
+
+--3번
+SELECT 
+    deptno,
+    name,
+    DECODE(deptno, 101, DECODE(name, 'Audie Murphy', 'BEST!', 'GOOD!'),'N/A') "비고"
+FROM professor;
+
+--4번
+SELECT 
+    name,
+    jumin,
+    DECODE(SUBSTR(jumin, 7, 1), 1, '남자', '여자') "성별",
+    DECODE(SUBSTR(jumin, 7, 1), 2, '여자', '남자') "성별_1"
+FROM student;
+
+--5번
+SELECT
+    name,
+    tel,
+    DECODE( SUBSTR(tel, 1, INSTR(tel, ')') -1) , 02, '서울', 031, '경기', 051, '부산', 052, '울산', 055, '경남') "지역명"
+FROM student
+WHERE deptno1 = 101;
 
 
 
