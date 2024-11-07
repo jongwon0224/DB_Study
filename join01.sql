@@ -134,3 +134,75 @@ where s.profno = p.profno(+);
 select *
 from student s, professor p
 where s.profno(+) = p.profno;
+
+select *
+from student s, professor p
+where s.profno = p.profno(+)
+union
+select *
+from student s, professor p
+where s.profno(+) = p.profno;
+
+--같은 테이블 반복 사용으로 직원의 상사 구하기
+select e1.empno, e1.ename, e1.mgr, e1.job, e2.empno, e2.ename, e2.job
+from emp e1, emp e2
+where e1.mgr = e2.empno;
+
+select *
+from emp;
+
+--3번 2010-05-30일 기준
+--1번
+SELECT s.name AS "STU_NAME", s.deptno1, d.dname AS "DEPT_NAME"
+FROM student s, department d
+WHERE deptno1 = deptno
+ORDER BY deptno1;
+
+--2번
+SELECT
+    e.name,
+    e.position,
+    TO_CHAR( e.pay, '999,999,999') AS "PAY",
+    TO_CHAR( DECODE(e.position, p.position, p.s_pay), '999,999,999') AS "LOW PAY",
+    TO_CHAR( DECODE(e.position, p.position, p.e_pay), '999,999,999') AS "HIGHT PAY"    
+FROM emp2 e, p_grade p
+WHERE e.position IS NOT NULL AND e.position = p.position(+)
+ORDER BY p.s_pay;
+
+--3번
+SELECT 
+    e.name,
+    SUBSTR('2010-05-30', 1, 4) - TO_CHAR(e.birthday, 'YYYY') +1 AS "한국나이",
+    e.position AS "지금포지션",
+    p.position AS "지금나이에맞는포지션"
+FROM emp2 e, p_grade p
+WHERE  SUBSTR('2010-05-30', 1, 4) - TO_CHAR(e.birthday, 'YYYY') +1 BETWEEN p.s_age AND p.e_age;
+
+--4번
+SELECT c.gname, c.point, g.gname
+FROM customer c, gift g
+WHERE c.point > g.g_start  AND g.gno = 7;
+
+--5번
+select profno, name, hiredate, rank() over (order by TO_CHAR(p1.hiredate, 'YYYY') )-1 "자신보다 입사일 빠른사람"
+from professor p1
+ORDER BY hiredate;
+
+
+-- where에 조건
+-- group by에는 그룹화하고 싶은 컬럼명
+-- select는 where조건에 맞는 개수 출력나옴..
+select p1.profno, p1.name, p1.hiredate, count(p2.profno)
+from professor p1, professor p2
+where p1.hiredate > p2.hiredate (+)
+group by p1.profno, p1.name, p1.hiredate
+order by p1.hiredate;
+
+-- 6번
+select e1.empno, e1.ename, e1.hiredate, count(e2.empno)
+from emp e1, emp e2
+where e1.hiredate > e2.hiredate (+)
+group by e1.empno, e1.ename, e1.hiredate
+order by e1.hiredate;
+
+--모르겠으면 위에 코드 세미콜론 하나씩 내려가면서 다시볼것.. 이해 조금 간다..
