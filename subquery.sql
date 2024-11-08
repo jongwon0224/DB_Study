@@ -49,10 +49,15 @@ from emp2
 where deptno = &dno;
 
 
--- EXISTS 사용
+-- 동일문제 EXISTS 사용
 select *
 from emp2
 where EXISTS (select dcode from dept2 where area = 'Pohang Main Office' and dcode = deptno);
+
+-- 동일문제 IN 사용
+select *
+from emp2
+where deptno IN (select dcode from dept2 where area = 'Pohang Main Office');
 
 --1번
 SELECT
@@ -117,7 +122,7 @@ order by pay;
 select *
 from emp2 a
 where a.pay >= (select avg(b.pay)
-                            from emp2 
+                            from emp2 b
                             where b.position = a.position);
 
 --join 이나 subquery로 해결가능
