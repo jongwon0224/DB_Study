@@ -1,13 +1,32 @@
 --DML
-
--- 데이터 저장 INSERT
--- 데이터 수정 UPDATE
--- 데이터 삭제 DELETE
--- 데이터 병합 MERGE
+    -- 데이터 저장 INSERT
+    -- 데이터 수정 UPDATE
+    -- 데이터 삭제 DELETE
+    -- 데이터 병합 MERGE
 
 --INSERT 구문 
 INSERT INTO 테이블명 (컬럼명 ~~)
 VALUES (데이터 값~~);
+
+-- INSERT ALL 구문
+-- 여러개를 동시에 삽입 (저장)
+--마지막에 select * from dual 필수!
+INSERT ALL 
+INTO tt02 VALUES (7, '이름7', null)
+INTO tt02 VALUES (7, '이름7', null)
+INTO tt02 VALUES (7, '이름7', null)
+INTO tt02 VALUES (7, '이름7', null)
+select * from dual;
+
+-- select 컬럼 개수 맞춰주면 데이터 삽입 가능
+-- table값 임의로 지정
+INSERT INTO tt02 -- number3 / varchar2 / date
+select 11, '샘플', sysdate from dual;
+
+-- select 컬럼 개수 맞춰주면 데이터 삽입 가능
+-- 다른 테이블에 있는 데이터 가져옴
+INSERT INTO tt02
+select deptno, loc, sysdate from dept;
 --------------------------------------------------------------------------------------
 --예시
 INSERT INTO new_table (no, name, birth)
@@ -44,11 +63,7 @@ VALUES (1);
 --null입력으로 테이블에 null값 출력
 INSERT INTO tt02 (no, name, hiredate)
 VALUES (2, null, null);
-
-
-INSERT INTO dept4
-VALUES (2000, 'Cheonan Office');
-
+--------------------------------------------------------------------------------------
 
 
 
