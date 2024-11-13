@@ -162,7 +162,55 @@ select * from hq_m;
 select type, sum(sales)
 from hq_m
 group by type;
----------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------
+--연습문제
+--1
+select * from dept2;
+
+INSERT INTO DEPT2 (dcode, dname, pdept, area)
+VALUES (9010, 'temp_10', 1006, 'temp area');
+------------------------------------------------------------------------------------------------------------------------------------------------
+--2
+INSERT INTO DEPT2 (dcode, dname, pdept)
+VALUES(9020, 'temp_20', 1006);
+------------------------------------------------------------------------------------------------------------------------------------------------
+--3
+select * from professor4;
+
+--TABLE 생성 방법 1. create table as ~
+CREATE TABLE professor4
+AS
+SELECT profno, name, pay
+FROM professor
+WHERE profno <= 3000;
+
+--TABLE 생성 방법 2. create table  ~ where 1=2해서 틀만 가져온후 insert into~로 데이터 가져오기
+CREATE TABLE professor5
+AS
+select profno, name, pay
+from professor
+where 1=2;
+
+INSERT INTO professor5
+SELECT profno, name, pay
+FROM professor
+WHERE profno <= 3000;
+------------------------------------------------------------------------------------------------------------------------------------------------
+--4
+UPDATE professor
+SET bonus = 100
+WHERE name = 'Sharon Stone';
+
+
+
+
+
+
+
+
+
+
 
 
 
